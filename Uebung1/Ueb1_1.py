@@ -7,10 +7,10 @@ print(january)  # Print data
 
 # Draw multiple plots within one figure
 plt.subplot(211)
-plt.plot(january.index + 1, january["births"], "b--")
+plt.plot(january.index + 1, january['births'], 'b--')
 plt.axis([0, 32, 0, 20000])
-plt.xlabel("January 2000")
-plt.ylabel("Births")
+plt.xlabel('January 2000')
+plt.ylabel('Births')
 
 # Input year
 year = int(input())
@@ -19,8 +19,8 @@ year_data = data[year_filter]
 year_data.index = year_data.index - year_data.index[0] + 1
 
 plt.subplot(212)
-plt.plot(year_data.index, year_data["births"], "k-")
+plt.plot(year_data.index, year_data['births'], 'k-')
 plt.axis([0, 367, 0, 20000])  # xmin,xmax,ymin,ymax
-plt.xlabel("All days in " + str(year))
-plt.ylabel("Births")
+plt.xlabel('All days in ' + str(year))
+plt.ylabel('Births')
 plt.show()
