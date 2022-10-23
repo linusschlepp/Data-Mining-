@@ -1,0 +1,16 @@
+import pandas as pd
+import numpy as np
+import matplotlib
+
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+
+# Read data from csv file
+data = pd.read_csv('US_births_2000-2014.csv', sep=',', dtype='int', header=0)
+
+# Create pivot-table from data
+pivot = pd.pivot_table(data, index="year", columns="month", values="births",
+                       aggfunc=np.sum, margins=True)
+
+min_year = str(data.year.min())
+max_year = str(data.year.max())
