@@ -1,23 +1,20 @@
-from main import *
-
-facttab = pd.read_csv('facttab.csv', sep=';')
-product = pd.read_csv('product.csv', sep=';', usecols=['PSID', 'artid', 'name', 'prodgroup'])
-date = pd.read_csv('date.csv', sep=';', usecols=['DSID', 'year', 'monthinyear'])
-customer = pd.read_csv('customer.csv', sep=';')
+from main import fact_data, pd, product_data, date_data, customer_data, np
 
 # Join all four tables
-join1 = pd.merge(left=facttab, right=product, on='PSID')
-join2 = pd.merge(left=join1, right=date, on='DSID')
-join3 = pd.merge(left=join2, right=customer, on='CSID')
+join1 = pd.merge(left=fact_data, right=product_data, on='PSID')
+join2 = pd.merge(left=join1, right=date_data, on='DSID')
+join3 = pd.merge(left=join2, right=customer_data, on='CSID')
 
-join3.to_csv('test.csv')
-herrenrad = join3.query("artid==100013")
-lst = herrenrad['custid'].unique()
-print(lst)
-test = join3[join3['custid'].isin(lst)]
-print(test['name_x'].unique())
+# Get all rows were artid equals 1000013
+join3_query = join3.query("artid==100013")
 
-pivot = pd.pivot_table(test, index='name_x',  values='quantity',
+# Get distinct list of customer ids from join3, who purchased 100013
+customer_ids = join3_query['custid'].unique()
+# Get all rows from join3, containing distinct customer ids
+customer_filtered = join3[join3['custid'].isin(customer_ids)]
+
+# Create pivot of filtered customer list
+pivot = pd.pivot_table(customer_filtered, index='name_x', values='quantity',
                        aggfunc=np.sum, margins=True).sort_values('quantity')
 
 # Get rid of last (All) row

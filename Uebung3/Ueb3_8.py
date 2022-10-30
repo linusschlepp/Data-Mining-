@@ -1,10 +1,10 @@
 from main import *
 
 # Convert datatypes of specific columns, into required datatypes (float, int)
-join2['price_y'] = join2['price_y'].astype(float)
+join2['price'] = join2['price'].astype(float)
 join2['quantity'] = join2['quantity'].astype(int)
 # Create total price column, by multiplying the individual price with the quantity
-join2['total_price'] = join2['price_y'] * join2['quantity']
+join2['total_price'] = join2['price'] * join2['quantity']
 
 pivot = pd.pivot_table(join2, index='custid',  values='total_price',
                        aggfunc=np.sum, margins=True)
