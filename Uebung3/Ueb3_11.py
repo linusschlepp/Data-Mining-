@@ -12,11 +12,15 @@ join2 = pd.merge(left=join1, right=date, on='DSID')
 
 # Filtern nach Jahr und Prodgroup mit query, auf benötigte Spalten reduzieren
 herrenrad = join2.query("year==2019 and prodgroup=='Man bicycle'")
+print(herrenrad)
 ergebnis = herrenrad[['monthinyear', 'quantity', 'name']]
 
 # Gruppieren
 gruppiert = ergebnis.groupby(['monthinyear', 'name']).sum().reset_index()
 
+"""
+My Addition to given example from lecture
+"""
 # Filter for individual names
 filtered_man_city = gruppiert[gruppiert.name == 'Man City Bike'].copy()
 filtered_man_trekking = gruppiert[gruppiert.name == 'Man Trekking Bike'].copy()
