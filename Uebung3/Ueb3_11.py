@@ -1,29 +1,20 @@
-import matplotlib.pyplot as plt
+from main import date_data, pd, plt, np, fact_data, product_data
 
-from main import *
+# Filter for year and prodgroup, reduce to needed columns
+join_1 = pd.merge(left=fact_data, right=product_data, on='PSID')
+join_2 = pd.merge(left=join_1, right=date_data, on='DSID')
+man_bike = join_2.query("year==2019 and prodgroup=='Man bicycle'")
+solution = man_bike[['monthinyear', 'quantity', 'name']]
 
-facttab = pd.read_csv('facttab.csv', sep=';')
-product = pd.read_csv('product.csv', sep=';', usecols=['PSID', 'artid', 'name', 'prodgroup'])
-date = pd.read_csv('date.csv', sep=';', usecols=['DSID', 'year', 'monthinyear'])
-
-# Join der drei Tabellen:
-join1 = pd.merge(left=facttab, right=product, on='PSID')
-join2 = pd.merge(left=join1, right=date, on='DSID')
-
-# Filtern nach Jahr und Prodgroup mit query, auf benötigte Spalten reduzieren
-herrenrad = join2.query("year==2019 and prodgroup=='Man bicycle'")
-print(herrenrad)
-ergebnis = herrenrad[['monthinyear', 'quantity', 'name']]
-
-# Gruppieren
-gruppiert = ergebnis.groupby(['monthinyear', 'name']).sum().reset_index()
+# Group
+grouped = solution.groupby(['monthinyear', 'name']).sum().reset_index()
 
 """
 My Addition to given example from lecture
 """
 # Filter for individual names
-filtered_man_city = gruppiert[gruppiert.name == 'Man City Bike'].copy()
-filtered_man_trekking = gruppiert[gruppiert.name == 'Man Trekking Bike'].copy()
+filtered_man_city = grouped[grouped.name == 'Man City Bike'].copy()
+filtered_man_trekking = grouped[grouped.name == 'Man Trekking Bike'].copy()
 print(filtered_man_city)
 print(filtered_man_trekking)
 
