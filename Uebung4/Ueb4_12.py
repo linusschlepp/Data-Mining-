@@ -1,29 +1,22 @@
-from main import *
+from main import fact_data, product_data, pd, customer_data
 
 
-# facttab = pd.read_csv("facttab.csv", sep=";", usecols=["PSID","CSID"])
-# product = pd.read_csv("product.csv", sep=";", header=0, usecols=["PSID","artid","prodgrid"])
-# customer = pd.read_csv("customer.csv", sep=";", header=0, usecols=["CSID","custid","name"])
+new_df = pd.merge(left=fact_data, right=product_data, on='PSID')
+new_df = pd.merge(left=new_df, right=customer_data, on='CSID')
 
+new_df=new_df[['custid', 'customer_name', 'artid', 'product_name']]
+# Create new column inside new_df
+new_df['amount'] = 0
 
-X = pd.merge(left=fact_data, right=product_data, on="PSID")
-X = pd.merge(left=X, right=customer_data, on="CSID")
-print(X)
-X.to_csv('test.csv')
+# Group and sort (ascending: custid, descending: amount):
+new_df = new_df.groupby(['custid', 'customer_name', 'artid', 'product_name']).count().reset_index()
+new_df = new_df.sort_values(['custid', 'amount'], ascending=[True, False])
 
-X=X[["custid","name","artid","prodgroup"]]
-# Eine neue Spalte anzahl hinzufügen, um dort die gruppierten Werte abzulegen
-X["anzahl"] = 0
+# New empty dataframe is created, containing all columns of X
+solution = pd.DataFrame(columns=new_df.columns)
+for custid in customer_data['custid'].values:
+    #  get first 3 rows of individual custid (are the top 3 products because is sorted descending)
+    temp = new_df[new_df.custid == custid].iloc[:3]
+    solution = pd.concat([solution, temp])
 
-# Gruppieren und sortieren (aufsteigend nach name, absteigend nach Anzahl):
-X = X.groupby(["custid", "name","artid", "prodgrid"]).count().reset_index()
-X = X.sort_values(["custid","anzahl"], ascending=[True,False])
-
-# In Schleife nur die drei best verkauften prodgride je name wählen und in neuer Tabelle erg sammeln:
-erg = pd.DataFrame(columns=X.columns)            # leere Tabelle erzeugen
-
-for custid in customer.custid.values:
-    hilf = X[X.custid == custid].iloc[:3]    # 3 besten prodgride des namen custid
-    erg = erg.append(hilf, ignore_index=True)      # der Erg-Tabelle hinzufügen
-
-print(erg)
+print(solution)
