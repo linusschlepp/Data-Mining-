@@ -1,4 +1,4 @@
-from main import *
+from main import data, plt, min_year, max_year, np, pd
 
 
 # Create pivot-table
@@ -21,8 +21,8 @@ max_col = pivot['max']
 print(max_col)
 
 # Get all but the last rows in series to avoid the last row (All)
-plt.bar(range(2000, 2015), max_col.iloc[:-1])
-plt.title('Total amount of births per year from'.format(min_year, max_year))
+plt.bar(max_col.iloc[:-1].index, max_col.iloc[:-1])
+plt.title('Total amount of births per year from {} to {}'.format(min_year, max_year))
 plt.xlabel('Years')
 plt.ylabel('Births')
 plt.show()

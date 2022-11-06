@@ -1,4 +1,4 @@
-from main import *
+from main import plt, data
 
 # Get max_births in whole timeline
 max_births = data['births'].max()
@@ -18,7 +18,7 @@ filtered_data = data[data.month == max_month].copy()
 
 # Re-filter for given year
 filtered_data = filtered_data[filtered_data.year == max_year].copy()
-plt.bar(range(0, 30), filtered_data['births'])
+plt.bar(filtered_data.index , filtered_data['births'])
 plt.ylabel('Births')
 plt.xlabel('Day in month')
 plt.title('Amount of births in {}.{}'.format(max_month, max_year))

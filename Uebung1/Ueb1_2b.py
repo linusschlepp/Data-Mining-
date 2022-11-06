@@ -1,4 +1,4 @@
-from main import *
+from main import data, plt, min_year, max_year
 
 # Set filter for 2nd day of week
 day_of_week_filter = data.day_of_week == 2

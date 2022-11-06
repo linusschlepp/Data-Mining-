@@ -1,9 +1,22 @@
-from main import pd, fact_data, product_data
+from main import pd, fact_data, date_data, product_data
 
-new_fact = pd.read_csv('facttab.csv', sep=';', header= 0, usecols=['ordid','PSID'])
-new_fact = new_fact.groupby(['ordid', 'PSID']).size().unstack(fill_value=0).astype('int')
+filtered_date = date_data[date_data['year'] == 2019].copy()
+print(filtered_date)
 
-print(new_fact)
+print('Only consider january? Enter y for yes, press enter for no')
+only_january = str(input()) == 'y'
+
+join_1 = pd.merge(fact_data, filtered_date, on='DSID', how='outer')
+
+join_1 = join_1[join_1['year'] == 2019].copy()
+if only_january:
+    join_1 = join_1[join_1['monthinyear'] == 1].copy()
+
+
+
+print(join_1)
+
+new_fact = join_1.groupby(['ordid', 'PSID']).size().unstack(fill_value=0).astype('int')
 sum_dict = new_fact.sum().to_dict()
 print(sum_dict)
 
@@ -27,14 +40,7 @@ for prod_1 in psid_lst:
             'support' : support
         })
 
-# Sort confidence from big to small, get biggest 5 rows
+
 sol_df = pd.DataFrame(lst_df).sort_values('confidence', ascending=False).head()
 sol_df.to_csv('test_1.csv')
 print(sol_df)
-
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-from main import *
+from main import plt, pivot, data
 
 # Get year with most births inside pivot
 year_most_births = pivot['All'].iloc[:-1].idxmax()

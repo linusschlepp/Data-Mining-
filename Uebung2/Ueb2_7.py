@@ -1,4 +1,4 @@
-from main import *
+from main import plt, data, min_year, max_year
 
 plt.hist(data['births'])
 plt.ylabel('Occurrence in Timeline')
