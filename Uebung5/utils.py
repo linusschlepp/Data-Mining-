@@ -1,20 +1,50 @@
-import pandas as pd
+from main import pd
 
-def train(X, feature, df_train):
-    werte = X[feature].unique()                     # alle auftretenden Werte merken
-    vorhersagen = pd.Series(index=werte, dtype=int) # Feld für Vorhersagen
-    fehler = 0
-    # in Schleife alle Vorhersagen und Fehler ermitteln
-    for i in werte:
-        iris, fehl = train_feature_wert(X, feature, i, df_train)
-        vorhersagen[i] = iris
-        fehler += fehl
-    return vorhersagen, fehler
 
-# für alle drei Iris-Typen (von 0 bis 2) die Anzahl der Treffer ermitteln, abhängig von feature und wert
-def train_feature_wert(X, feature, wert, df_train):
-    df_help = df_train[df_train[feature] == wert]        #nur Zeilen, deren Feature den Wert enthält
-    iris_zaehler = df_help.iris.value_counts()           #zählt alle Iris Vorkommnisse
-    imax = iris_zaehler.idxmax()         #häufigste Iris
-    fehler = iris_zaehler.sum() - iris_zaehler.max()    #Anzahl der falschen Angaben: alle - max
-    return imax, fehler
+def train(df, feature, df_train):
+    values = df[feature].unique()  # safe values
+    prediction = pd.Series(index=values, dtype=int)  # fields for predictions
+    error = 0
+    # Calculate all preditcions and errors within loop
+    for value in values:
+        iris, err = train_feature_value(feature, value, df_train)
+        prediction[value] = iris
+        error += err
+
+    return prediction, error
+
+
+# Calculate amount of 'hits' for all three iris-types (0 to 2), dependent of feature and value
+def train_feature_value(feature, value, df_train):
+    df_help = df_train[df_train[feature] == value]  # only rows, of the which Feature holds the value
+    iris_counter = df_help.iris.value_counts()  # counts iris appearances
+    imax = iris_counter.idxmax()  # most common iris
+    error = iris_counter.sum() - iris_counter.max()  # Amount of error: all - max
+    return imax, error
+
+
+# Calculates error and returns it as a dataframe
+def calculate_error(features, df_train, all_predictions):
+    error = pd.Series(dtype=int)
+    for feature in features:
+        prediction, err = train(df_train, feature, df_train)
+        all_predictions[feature] = prediction
+        error[feature] = err
+
+    return error
+
+
+# Calculates confidence and returns it as a dataframe
+def calculate_confidence(features, df_middle, df_train, all_predictions, sum_dict):
+    confidence = pd.Series(dtype=int)
+    for feature_1 in features:
+        x_a = df_middle[df_middle[feature_1] == 1]
+        prediction, err = train(df_train, feature_1, df_train)
+        all_predictions[feature_1] = prediction
+        for feature_2 in features:
+            if feature_2 == feature_1:
+                continue
+            support = x_a[feature_2].sum()
+            confidence[feature_1] = support / sum_dict.get(feature_2)
+
+    return confidence
