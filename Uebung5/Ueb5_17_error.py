@@ -7,9 +7,7 @@ ran_stream = 2520
 
 df_train, df_test = train_test_split(df_quarter, random_state=ran_stream)
 
-all_predictions = pd.DataFrame(columns=features)
-
-error = calculate_error(features, df_train, all_predictions)
+all_predictions, error = calculate_error(features, df_train)
 best_feature = error.idxmin()
 solution = all_predictions[best_feature]
 

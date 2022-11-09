@@ -24,18 +24,20 @@ def train_feature_value(feature, value, df_train):
 
 
 # Calculates error and returns it as a dataframe
-def calculate_error(features, df_train, all_predictions):
+def calculate_error(features, df_train):
+    all_predictions = pd.DataFrame(columns=features)
     error = pd.Series(dtype=int)
     for feature in features:
         prediction, err = train(df_train, feature, df_train)
         all_predictions[feature] = prediction
         error[feature] = err
 
-    return error
+    return all_predictions, error
 
 
 # Calculates confidence and returns it as a dataframe
-def calculate_confidence(features, df_middle, df_train, all_predictions, sum_dict):
+def calculate_confidence(features, df_middle, df_train, sum_dict):
+    all_predictions = pd.DataFrame(columns=features)
     confidence = pd.Series(dtype=int)
     for feature_1 in features:
         x_a = df_middle[df_middle[feature_1] == 1]
@@ -47,4 +49,4 @@ def calculate_confidence(features, df_middle, df_train, all_predictions, sum_dic
             support = x_a[feature_2].sum()
             confidence[feature_1] = support / sum_dict.get(feature_2)
 
-    return confidence
+    return all_predictions, confidence

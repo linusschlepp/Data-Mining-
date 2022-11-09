@@ -8,9 +8,8 @@ ran_stream = 9946
 
 df_train, df_test = train_test_split(df_quarter, random_state=ran_stream)
 
-all_predictions = pd.DataFrame(columns=features)
 
-confidence = calculate_confidence(features, df_middle, df_train, all_predictions, sum_dict)
+all_predictions, confidence = calculate_confidence(features, df_middle, df_train, sum_dict)
 best_feature = confidence.idxmax()
 solution = all_predictions[best_feature]
 
