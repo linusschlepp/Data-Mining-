@@ -1,4 +1,4 @@
-from main import pd, fact_data, product_data
+from main import pd
 from utils import create_confidence_df
 
 new_fact = pd.read_csv('facttab.csv', sep=';', header= 0, usecols=['ordid','PSID'])

@@ -1,4 +1,4 @@
-from main import pd, fact_data, date_data, product_data
+from main import pd, fact_data, date_data
 from utils import create_confidence_df
 
 filtered_date = date_data[date_data['year'] == 2019].copy()

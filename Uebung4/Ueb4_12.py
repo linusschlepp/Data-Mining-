@@ -14,9 +14,9 @@ new_df = new_df.sort_values(['custid', 'amount'], ascending=[True, False])
 
 # New empty dataframe is created, containing all columns of X
 solution = pd.DataFrame(columns=new_df.columns)
-for custid in customer_data['custid'].values:
+for cust_id in customer_data['custid'].values:
     #  get first 3 rows of individual custid (are the top 3 products because is sorted descending)
-    temp = new_df[new_df.custid == custid].iloc[:3]
+    temp = new_df[new_df.cust_id == cust_id].iloc[:3]
     solution = pd.concat([solution, temp])
 
 print(solution)
