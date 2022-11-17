@@ -1,4 +1,4 @@
 import utils
 
 
-utils.cluster(3)
+utils.cluster(2)
