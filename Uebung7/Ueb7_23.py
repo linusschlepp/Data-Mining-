@@ -1,6 +1,4 @@
-import matplotlib.pyplot as plt
-
-from main import *
+from main import x_train, y_train, x_test, accuracy_score, y_test, KNeighborsClassifier, pd, plt
 
 dict = {}
 for neighbor in range(1, 20):
