@@ -10,6 +10,7 @@ from sklearn.exceptions import DataConversionWarning
 warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 import matplotlib
 
+
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
@@ -21,7 +22,7 @@ data = data[data[0] != 0]
 # Remove first two columns
 data = data.iloc[:,2:]
 
-# Get last row
+# Get last column
 target = data.iloc[:, -1:]
 
 # Remove last row from dataframe
