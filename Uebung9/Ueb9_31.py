@@ -1,11 +1,11 @@
 from main import plt, fish_data, pd, LinearRegression, x_train, y_train, x_test, y_test, y_fish
 
-scmx = pd.plotting.scatter_matrix(fish_data.iloc[:, 1:],
-                                  c=fish_data.iloc[:, 1].values,
-                                  figsize=(15, 15),
-                                  marker='o',
-                                  s=30,
-                                  alpha=0.8)
+scatter_plot = pd.plotting.scatter_matrix(fish_data.iloc[:, 1:],
+                                          c=fish_data.iloc[:, 1].values,
+                                          figsize=(15, 15),
+                                          marker='o',
+                                          s=30,
+                                          alpha=0.8)
 plt.show()
 
 model = LinearRegression()  # Create model
@@ -14,7 +14,7 @@ model.fit(x_train, y_train)  # Train
 print('R² of train-data: {:.2f}'.format(model.score(x_train, y_train)))
 print('R² of test-data: {:.2f}'.format(model.score(x_test, y_test)))
 
-# Visualisieren des Ergebnisses
+# Visualize results
 fig = plt.figure(figsize=(10, 10), num='Linear Regression')
 bild = fig.add_subplot()
 bild.scatter(x_train, y_train, color="blue")  # Blue Points

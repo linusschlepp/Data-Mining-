@@ -1,7 +1,6 @@
 from main import PolynomialFeatures, train_test_split, y, x_all, LinearRegression, plt
 
 x = x_all[['horsepower']]
-# TODO: Fix issues
 
 dict_test = {}
 dict_train = {}
@@ -9,8 +8,8 @@ figure = plt.figure(num='Polymorphic Regression', figsize=(12, 10))
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)
 image = figure.add_subplot()
 
-image.scatter(x_train, y_train, color='blue')
-image.scatter(x_test, y_test, color='green')
+#image.scatter(x_train, y_train, color='blue')
+#image.scatter(x_test, y_test, color='green')
 x_train = x_train.replace(['?'], 0)
 x_test = x_test.replace(['?'], 0)
 y_train = y_train.replace(['?'], 0)
@@ -36,7 +35,7 @@ image = plt.figure(num='R² for train and test data', figsize=(12, 10))
 
 plot1 = image.add_subplot(221)
 plot1.bar(range(len(dict_train)), list(dict_train.values()), align='center')
-plot1.title('Train data')
+plot1.set_title('Train data')
 plot1.set_xlabel('Polymorial degree')
 plot1.set_ylabel('R²')
 # plot1.xticks(range(len(dict_train)), list(dict_train.keys()))
@@ -45,7 +44,7 @@ plot1.set_ylabel('R²')
 plot2 = image.add_subplot(222)
 
 plot2.bar(range(len(dict_test)), list(dict_test.values()), align='center')
-plot2.title('Test data')
+plot2.set_title('Test data')
 plot2.set_xlabel('Polymorial degree')
 plot2.set_ylabel('R²')
 # plot2.xticks(range(len(dict_test)), list(dict_test.keys()))
@@ -56,4 +55,4 @@ plt.show()
 figure = plt.figure(figsize=(10, 10), num='Polymorial Regression')
 image = figure.add_subplot()
 
-image.scatter(x_train, y_train, color='blue')
+#image.scatter(x_train, y_train, color='blue')
